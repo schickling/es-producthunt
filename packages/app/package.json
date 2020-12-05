@@ -1,0 +1,17 @@
+{
+  "name": "app",
+  "devDependencies": {
+    "@prisma/cli": "^2.12.1",
+    "@types/node": "^14.14.10",
+    "@types/ws": "^7.4.0",
+    "estrella": "^1.2.10"
+  },
+  "dependencies": {
+    "@nexus/schema": "^0.19.2",
+    "@prisma/client": "^2.12.1",
+    "camel-case": "^4.1.2",
+    "fastify": "^3.9.1",
+    "graphql": "^15.4.0",
+    "mercurius": "^6.4.0"
+  }
+}

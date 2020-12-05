@@ -1,0 +1,15 @@
+version: '3'
+services:
+  database:
+    image: 'postgres'
+    container_name: 'postgres-es-producthunt'
+    environment:
+      POSTGRES_USER: es-producthunt
+      POSTGRES_PASSWORD: es-producthunt
+      POSTGRES_DB: es-producthunt
+    volumes:
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    ports:
+      - '55432:5432'
+volumes:
+  database-data:

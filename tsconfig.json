@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "Node",
+    // "noUncheckedIndexAccess": true
+    "noErrorTruncation": true,
+    "incremental": true,
+    "composite": true,
+    "declaration": true,
+    "target": "ES2020",
+    "baseUrl": "./packages/",
+    "paths": {
+      // "schemalayer": ["./schemalayer/src"]
+    }
+  },
+  "plugins": [
+    {
+      "name": "typescript-snapshots-plugin"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    // "allowSyntheticDefaultImports": true,
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo/tsconfig.tsbuildinfo",
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["./src"]
+}

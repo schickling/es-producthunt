@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index 0f3b11ed8a6fdb153dbd6d9f313cca92d47cf021..f33d48dd0dc8d1c6362b36b3480320495671cb59 100644
+--- a/package.json
++++ b/package.json
+@@ -19,7 +19,6 @@
+   "source": "src/lru.js",
+   "browser": "lib/tiny-lru.js",
+   "main": "lib/tiny-lru.cjs.js",
+-  "module": "lib/tiny-lru.esm.js",
+   "types": "tiny-lru.d.ts",
+   "engines": {
+     "node": ">=6"
