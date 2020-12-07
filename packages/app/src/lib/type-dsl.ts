@@ -15,6 +15,7 @@ export type FieldValue =
   | undefined
   | ArrayWrapper<FieldValue>
   | NullableWrapper<FieldValue>
+  | UndefineableWrapper<FieldValue>
 
 export interface Wrapper<FV extends FieldValue, W extends string> {
   wrapper: W
@@ -35,6 +36,15 @@ export const nullable = <FV extends FieldValue>(
   value: _,
 })
 
+export interface UndefineableWrapper<FV extends FieldValue>
+  extends Wrapper<FV, 'undefineable'> {}
+export const undefineable = <FV extends FieldValue>(
+  _: FV,
+): UndefineableWrapper<FV> => ({
+  wrapper: 'undefineable',
+  value: _,
+})
+
 export type GetType<FV extends FieldValue> = FV extends 'string'
   ? string
   : FV extends 'number'
@@ -49,6 +59,8 @@ export type GetType<FV extends FieldValue> = FV extends 'string'
   ? GetType<FV_>[]
   : FV extends NullableWrapper<infer FV_>
   ? GetType<FV_> | null
+  : FV extends UndefineableWrapper<infer FV_>
+  ? GetType<FV_> | undefined
   : never
 
 export type EventMap = { [kind: string]: ObjectDef }

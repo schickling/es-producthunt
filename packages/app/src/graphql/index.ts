@@ -6,10 +6,12 @@ import {
   list,
   mutationType,
 } from '@nexus/schema'
-import { commands } from '../posts/commands'
+import { commands as postCommands } from '../posts/commands'
+import { commands as userCommands } from '../users/commands'
 import { PrismaClient } from '@prisma/client'
 import { isPostsAggregatePost1, makePostsAggregate } from '../posts/aggregates'
 import { generateCommandMutations } from './command-mutations'
+import { makeUsersAggregate } from '../users/aggregates'
 
 const prisma = new PrismaClient()
 
@@ -27,6 +29,25 @@ const Post = objectType({
     t.list.string('topics')
     t.list.string('downloadLinks')
     t.string('thumbnailUrl')
+    t.field('author', {
+      type: User,
+      resolve: async (_) => {
+        const agg = await makeUsersAggregate({ prisma })
+        return agg[_.authorId]
+      }
+    })
+  },
+})
+
+const User = objectType({
+  name: 'User',
+  rootTyping: {
+    path: path.join(__dirname, '..', '..', 'src', 'users', 'aggregates.ts'),
+    name: 'UsersAggregateUser',
+  },
+  definition(t) {
+    t.string('id', { resolve: (_) => _.userId })
+    t.string('name')
   },
 })
 
@@ -44,12 +65,12 @@ const Query = queryType({
 
 const Mutation = mutationType({
   definition(t) {
-    generateCommandMutations(t, commands, prisma)
+    generateCommandMutations(t, { ...userCommands, ...postCommands }, prisma)
   },
 })
 
 export const schema = makeSchema({
-  types: [Post, Query, Mutation],
+  types: [Post, User, Query, Mutation],
   nonNullDefaults: { input: true, output: true },
   outputs: {
     typegen: path.join(

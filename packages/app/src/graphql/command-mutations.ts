@@ -48,6 +48,8 @@ function fieldValueToArgs(fv: FieldValue): AllNexusArgsDefs {
     return list(fieldValueToArgs(fv.value))
   } else if (fv?.wrapper === 'nullable') {
     return nullable(fieldValueToArgs(fv.value) as any)
+  } else if (fv?.wrapper === 'undefineable') {
+    return nullable(fieldValueToArgs(fv.value) as any)
   }
 
   throw new Error(`Unsupported field value ${fv}`)

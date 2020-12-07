@@ -6,7 +6,7 @@ const app = Fastify()
 
 app.register(mercurius, {
   schema,
-  ide: 'graphiql',
+  ide: 'playground',
   // context: buildContext
 })
 
@@ -16,4 +16,3 @@ app.get('/', async function (req, reply) {
 })
 
 app.listen(3000, (err, addr) => console.log(err ?? `Running on ${addr}`))
-

@@ -1,9 +1,13 @@
 {
   "name": "app",
+  "scripts": {
+    "dev": "node -r dotenv/config build.js --watch"
+  },
   "devDependencies": {
     "@prisma/cli": "^2.12.1",
     "@types/node": "^14.14.10",
     "@types/ws": "^7.4.0",
+    "dotenv": "^8.2.0",
     "estrella": "^1.2.10"
   },
   "dependencies": {

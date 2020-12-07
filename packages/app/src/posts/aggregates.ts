@@ -11,12 +11,14 @@ export type PostsAggregatePost0 = {
   state: '0-url'
   postId: string
   url: string
+  authorId: string
 }
 
 export type PostsAggregatePost1 = {
   state: '1-submission'
   postId: string
   url: string
+  authorId: string
   name: string
   tagline: string
   topics: string[]
