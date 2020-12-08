@@ -1,6 +1,6 @@
 import { array, defineEvents } from '../lib/type-dsl'
 
-export const events = defineEvents({
+export default defineEvents({
   'new-post-link': { postId: 'string', url: 'string', authorId: 'string' },
   'new-post-submission': {
     postId: 'string',

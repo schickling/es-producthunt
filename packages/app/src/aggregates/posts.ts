@@ -1,4 +1,4 @@
-import { events } from './events'
+import { events } from '../events'
 import { makeAggregate } from '../lib/aggregates'
 
 export type PostsAggregate = {
@@ -32,7 +32,7 @@ export function isPostsAggregatePost1(
   return _.state === '1-submission'
 }
 
-export const makePostsAggregate = makeAggregate<
+export default makeAggregate<
   PostsAggregate,
   typeof events
 >()({

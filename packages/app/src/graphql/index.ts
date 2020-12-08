@@ -6,19 +6,17 @@ import {
   list,
   mutationType,
 } from '@nexus/schema'
-import { commands as postCommands } from '../posts/commands'
-import { commands as userCommands } from '../users/commands'
+import { commands } from '../commands'
 import { PrismaClient } from '@prisma/client'
-import { isPostsAggregatePost1, makePostsAggregate } from '../posts/aggregates'
+import { isPostsAggregatePost1, aggregates } from '../aggregates'
 import { generateCommandMutations } from './command-mutations'
-import { makeUsersAggregate } from '../users/aggregates'
 
 const prisma = new PrismaClient()
 
 const Post = objectType({
   name: 'Post',
   rootTyping: {
-    path: path.join(__dirname, '..', '..', 'src', 'posts', 'aggregates.ts'),
+    path: path.join(__dirname, '..', '..', 'src', 'aggregates', 'index.ts'),
     name: 'PostsAggregatePost1',
   },
   definition(t) {
@@ -32,9 +30,9 @@ const Post = objectType({
     t.field('author', {
       type: User,
       resolve: async (_) => {
-        const agg = await makeUsersAggregate({ prisma })
+        const agg = await aggregates.users({ prisma })
         return agg[_.authorId]
-      }
+      },
     })
   },
 })
@@ -42,7 +40,7 @@ const Post = objectType({
 const User = objectType({
   name: 'User',
   rootTyping: {
-    path: path.join(__dirname, '..', '..', 'src', 'users', 'aggregates.ts'),
+    path: path.join(__dirname, '..', '..', 'src', 'aggregates', 'index.ts'),
     name: 'UsersAggregateUser',
   },
   definition(t) {
@@ -56,7 +54,7 @@ const Query = queryType({
     t.field('posts', {
       type: list(Post),
       resolve: async () => {
-        const agg = await makePostsAggregate({ prisma })
+        const agg = await aggregates.posts({ prisma })
         return Object.values(agg).filter(isPostsAggregatePost1)
       },
     })
@@ -65,7 +63,7 @@ const Query = queryType({
 
 const Mutation = mutationType({
   definition(t) {
-    generateCommandMutations(t, { ...userCommands, ...postCommands }, prisma)
+    generateCommandMutations(t, commands, prisma)
   },
 })
 

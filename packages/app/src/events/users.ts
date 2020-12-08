@@ -1,6 +1,6 @@
 import { defineEvents, undefineable } from '../lib/type-dsl'
 
-export const events = defineEvents({
+export default defineEvents({
   'user-signedup': {
     userId: 'string',
     name: 'string',

@@ -1,12 +1,17 @@
 {
   "name": "app",
   "scripts": {
-    "dev": "node -r dotenv/config build.js --watch"
+    "dev": "node -r dotenv/config build.js --watch",
+    "gen:barrels": "yarn gen:barrels:events && yarn gen:barrels:commands && yarn gen:barrels:aggregates",
+    "gen:barrels:events": "barrelsby --delete --name _barrel.ts --exclude index.ts --structure filesystem --directory src/events",
+    "gen:barrels:commands": "barrelsby --delete --name _barrel.ts --exclude index.ts --structure filesystem --directory src/commands",
+    "gen:barrels:aggregates": "barrelsby --delete --name _barrel.ts --exclude index.ts --structure filesystem --directory src/aggregates"
   },
   "devDependencies": {
     "@prisma/cli": "^2.12.1",
     "@types/node": "^14.14.10",
     "@types/ws": "^7.4.0",
+    "barrelsby": "^2.2.0",
     "dotenv": "^8.2.0",
     "estrella": "^1.2.10"
   },

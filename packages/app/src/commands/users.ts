@@ -1,9 +1,9 @@
-import { makeUsersAggregate } from './aggregates'
+import { aggregates } from '../aggregates'
 import { defineCommands } from '../lib/commands'
-import { events } from './events'
+import { events } from '../events'
 import { undefineable } from '../lib/type-dsl'
 
-export const commands = defineCommands<typeof events>()({
+export default defineCommands<typeof events>()({
   'user-signup': {
     definition: {
       userId: 'string',
@@ -12,7 +12,7 @@ export const commands = defineCommands<typeof events>()({
       password: 'string',
     },
     handler: async ({ payload, prisma }) => {
-      const agg = await makeUsersAggregate({ prisma })
+      const agg = await aggregates.users({ prisma })
       const users = Object.values(agg)
       const emails = users.map((_) => _.email)
       if (emails.includes(payload.email)) {
@@ -46,7 +46,7 @@ export const commands = defineCommands<typeof events>()({
       email: undefineable('string'),
     },
     handler: async ({ payload, prisma }) => {
-      const agg = await makeUsersAggregate({ prisma })
+      const agg = await aggregates.users({ prisma })
       const user = agg[payload.userId]
       if (user === undefined) {
         throw new Error(`No such user with id ${payload.userId}`)

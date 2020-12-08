@@ -1,13 +1,12 @@
-import { makePostsAggregate } from './aggregates'
+import { aggregates } from '../aggregates'
 import { defineCommands } from '../lib/commands'
-import { events } from './events'
-import { makeUsersAggregate } from '../users/aggregates'
+import { events } from '../events'
 
-export const commands = defineCommands<typeof events>()({
+export default defineCommands<typeof events>()({
   'new-post-link': {
     definition: events['new-post-link'],
     handler: async ({ payload, prisma }) => {
-      const postAgg = await makePostsAggregate({ prisma })
+      const postAgg = await aggregates.posts({ prisma })
       const posts = Object.values(postAgg)
       const urls = posts.map((_) => _.url)
       if (urls.includes(payload.url)) {
@@ -19,7 +18,7 @@ export const commands = defineCommands<typeof events>()({
         throw new Error(`Post with ID (${payload.postId}) already exists.`)
       }
 
-      const userAgg = await makeUsersAggregate({ prisma })
+      const userAgg = await aggregates.users({ prisma })
       const user = userAgg[payload.authorId]
       if (user === undefined) {
         throw new Error(`No such user with id ${payload.authorId}`)
@@ -31,7 +30,7 @@ export const commands = defineCommands<typeof events>()({
   'new-post-submission': {
     definition: events['new-post-submission'],
     handler: async ({ payload, prisma }) => {
-      const agg = await makePostsAggregate({ prisma })
+      const agg = await aggregates.posts({ prisma })
       const post = agg[payload.postId]
       if (post === undefined) {
         throw new Error(`No such post with id ${payload.postId}`)
